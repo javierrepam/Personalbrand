@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Javier Rodriguez — Personal Branding</title>
+  <meta name="description" content="Personal branding landing page: projects, about, resume." />
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --panel:#0f1217;
+      --text:#e8eef7;
+      --muted:#a9b4c2;
+      --shadow: rgba(0,0,0,.45);
+
+      --mint:#28e6b7;
+      --mint2:#0fb38c;
+
+      --gold:#f6cf2f;
+      --gold2:#d9a90a;
+
+      --accent:#ff3b68;
+      --line: rgba(255,255,255,.06);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 70% 35%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(900px 700px at 25% 70%, rgba(40,230,183,.07), transparent 60%),
+        linear-gradient(180deg, #080a0d, #0b0d10 45%, #07090b);
+      overflow-x:hidden;
+    }
+
+    /* Top-left mark */
+    .mark{
+      position:fixed;
+      top:22px; left:22px;
+      width:22px; height:22px;
+      transform: rotate(12deg);
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.55));
+      z-index:10;
+    }
+    .mark::before{
+      content:"";
+      display:block;
+      width:100%; height:100%;
+      background: linear-gradient(135deg, #ff2e63, #b10f34);
+      clip-path: polygon(0 20%, 55% 0, 100% 20%, 60% 60%, 55% 100%, 40% 60%);
+      border-radius: 4px;
+      opacity:.95;
+    }
+
+    /* Layout */
+    .wrap{
+      min-height:100%;
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      align-items:stretch;
+    }
+
+    /* Left nav like the reference (bottom-left) */
+    nav{
+      position:relative;
+      padding: 28px 18px;
+    }
+    .nav-inner{
+      position:fixed;
+      left:22px;
+      bottom:26px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-weight:700;
+      font-size:12px;
+      color:rgba(232,238,247,.85);
+    }
+    .nav-inner a{
+      color:inherit;
+      text-decoration:none;
+      opacity:.88;
+      transition: opacity .15s ease, transform .15s ease;
+      width:max-content;
+    }
+    .nav-inner a:hover{opacity:1; transform:translateX(2px)}
+    .nav-inner a.active{
+      opacity:1;
+      position:relative;
+    }
+    .nav-inner a.active::before{
+      content:"";
+      position:absolute;
+      left:-10px;
+      top:50%;
+      width:6px; height:6px;
+      border-radius:2px;
+      transform: translateY(-50%) rotate(12deg);
+      background: var(--accent);
+    }
+
+    main{
+      display:grid;
+      place-items:center;
+      padding: 24px;
+    }
+
+    /* Stage that matches the screenshot framing */
+    .stage{
+      width:min(980px, 92vw);
+      height: min(520px, 74vh);
+      border-radius: 10px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      outline: 1px solid var(--line);
+      box-shadow: 0 30px 70px var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Soft vignette / depth */
+    .stage::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 380px at 55% 45%, rgba(255,255,255,.06), transparent 70%),
+        radial-gradient(900px 520px at 85% 75%, rgba(246,207,47,.06), transparent 65%),
+        radial-gradient(1000px 600px at 10% 85%, rgba(40,230,183,.06), transparent 60%),
+        radial-gradient(1100px 700px at 50% 115%, rgba(0,0,0,.65), transparent 55%);
+      pointer-events:none;
+    }
+
+    /* Hero text angled like the reference */
+    .hero-copy{
+      position:absolute;
+      left:48%;
+      top:46%;
+      transform: translate(-50%,-50%) skewY(-10deg) rotate(-14deg);
+      text-align:left;
+      max-width: 360px;
+      z-index:3;
+    }
+    .hero-copy h1{
+      margin:0 0 10px;
+      font-size: 34px;
+      line-height:1.05;
+      letter-spacing:.01em;
+    }
+    .hero-copy h1 span{
+      color:rgba(232,238,247,.95);
+      text-shadow: 0 18px 35px rgba(0,0,0,.55);
+    }
+    .hero-copy p{
+      margin:0;
+      color:rgba(169,180,194,.9);
+      font-weight:600;
+      font-size:13px;
+      line-height:1.6;
+      max-width: 320px;
+    }
+    .hero-copy .chips{
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .chip{
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.05);
+      outline:1px solid rgba(255,255,255,.06);
+    }
+
+    /* Isometric blocks */
+    .iso{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      transform: translateZ(0);
+    }
+
+    .block{
+      position:absolute;
+      transform-style:preserve-3d;
+      filter: drop-shadow(0 26px 28px rgba(0,0,0,.55));
+    }
+
+    /* A simple isometric prism (top + left + right) */
+    .prism{
+      width: 88px;
+      height: 140px;
+      transform: rotateX(60deg) rotateZ(-45deg);
+    }
+
+    .prism .face{
+      position:absolute;
+      inset:0;
+      border-radius: 10px;
+    }
+
+    /* “Top” face */
+    .prism .top{
+      height: 88px;
+      transform: translateZ(70px);
+    }
+
+    /* Left/right faces */
+    .prism .left,
+    .prism .right{
+      height: 140px;
+    }
+    .prism .left{
+      transform: rotateY(-90deg) translateZ(44px);
+      transform-origin:left;
+      width: 88px;
+    }
+    .prism .right{
+      transform: rotateY(0deg) translateZ(44px);
+      width: 88px;
+    }
+
+    /* Mint stack like the reference */
+    .mint-stack{ left:20%; top:26%; }
+    .mint-stack .base{ width:96px; height: 180px; }
+    .mint-stack .cap{
+      position:absolute;
+      left: 6px; top: -44px;
+      width: 84px; height: 84px;
+      transform: rotateX(60deg) rotateZ(-45deg);
+      transform-style:preserve-3d;
+      filter: drop-shadow(0 22px 22px rgba(0,0,0,.45));
+    }
+
+    /* Mint colors */
+    .mint .top{ background: linear-gradient(135deg, var(--mint), #5cffda); }
+    .mint .left{ background: linear-gradient(180deg, var(--mint2), #0a8d70); }
+    .mint .right{ background: linear-gradient(180deg, #22d9ab, #0ea37f); }
+
+    /* Gold cubes */
+    .cube{
+      width: 92px; height: 92px;
+      transform: rotateX(60deg) rotateZ(-45deg);
+    }
+    .cube .top{ transform: translateZ(46px); height:92px; }
+    .cube .left{ transform: rotateY(-90deg) translateZ(46px); width:92px; height:92px; }
+    .cube .right{ transform: rotateY(0deg) translateZ(46px); width:92px; height:92px; }
+
+    .gold .top{ background: linear-gradient(135deg, var(--gold), #ffe07a); }
+    .gold .left{ background: linear-gradient(180deg, var(--gold2), #b88300); }
+    .gold .right{ background: linear-gradient(180deg, #f0c21c, #c99905); }
+
+    .gold-1{ left:56%; top:52%; }
+    .gold-2{ left:75%; top:35%; transform: translateZ(0) scale(1.05); }
+
+    /* Connecting “typing” lines */
+    .connector{
+      position:absolute;
+      left: 30%;
+      top: 38%;
+      width: 280px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(232,238,247,.0), rgba(232,238,247,.22), rgba(232,238,247,.0));
+      transform: rotate(-14deg);
+      opacity:.7;
+      z-index:2;
+    }
+    .connector::after{
+      content:"";
+      position:absolute;
+      right: 18px;
+      top:-6px;
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      background: rgba(232,238,247,.35);
+      transform: rotate(12deg);
+    }
+
+    /* CTA panel (invisible in reference, but useful) */
+    .cta{
+      position:absolute;
+      right: 22px;
+      bottom: 18px;
+      display:flex;
+      gap:10px;
+      z-index:4;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(232,238,247,.92);
+      padding:10px 12px;
+      border-radius: 12px;
+      font-weight:800;
+      letter-spacing:.02em;
+      text-decoration:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      backdrop-filter: blur(8px);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.16);
+    }
+
+    /* Responsiveness */
+    @media (max-width: 860px){
+      .wrap{ grid-template-columns: 1fr; }
+      nav{ padding:0; }
+      .nav-inner{
+        left: 16px;
+        bottom: 16px;
+        gap:8px;
+      }
+      main{ padding: 18px; }
+      .hero-copy{
+        left:52%;
+        top:48%;
+        max-width: 300px;
+        transform: translate(-50%,-50%) skewY(-10deg) rotate(-14deg) scale(.95);
+      }
+      .mint-stack{ left:14%; top:30%; }
+      .gold-2{ left:72%; top:30%; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .btn, .nav-inner a{transition:none}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mark" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <nav aria-label="Primary">
+      <div class="nav-inner">
+        <a class="active" href="#about">ABOUT ME</a>
+        <a href="#projects">PROJECTS</a>
+        <a href="#resume">RESUME</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="stage" aria-label="Hero">
+        <div class="connector" aria-hidden="true"></div>
+
+        <div class="hero-copy">
+          <h1><span>Hello, I’m Javi.</span><br><span>UX / Product Designer</span></h1>
+          <p>
+            I design clean, modern interfaces and ship usable systems.
+            Focused on clarity, accessibility, and product outcomes.
+          </p>
+          <div class="chips" aria-hidden="true">
+            <div class="chip">Design Systems</div>
+            <div class="chip">UX Research</div>
+            <div class="chip">Prototyping</div>
+          </div>
+        </div>
+
+        <div class="iso" aria-hidden="true">
+          <!-- Mint stack -->
+          <div class="block mint-stack mint">
+            <div class="prism base">
+              <div class="face top"></div>
+              <div class="face left"></div>
+              <div class="face right"></div>
+            </div>
+
+            <div class="cap">
+              <div class="cube mint">
+                <div class="face top"></div>
+                <div class="face left"></div>
+                <div class="face right"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gold cubes -->
+          <div class="block gold-1">
+            <div class="cube gold">
+              <div class="face top"></div>
+              <div class="face left"></div>
+              <div class="face right"></div>
+            </div>
+          </div>
+
+          <div class="block gold-2">
+            <div class="cube gold">
+              <div class="face top"></div>
+              <div class="face left"></div>
+              <div class="face right"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn" href="#resume">Download Resume</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Dummy sections for anchor navigation -->
+  <section id="about" hidden></section>
+  <section id="projects" hidden></section>
+  <section id="resume" hidden></section>
+</body>
+</html>
